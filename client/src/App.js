@@ -1,6 +1,6 @@
 import { useState } from "react";
 import io from "socket.io-client";
-import Chat from "./components/Chat";
+import Chat from "components/Chat";
 
 const socket = io.connect("http://localhost:3001");
 
