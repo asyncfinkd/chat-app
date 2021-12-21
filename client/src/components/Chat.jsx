@@ -1,38 +1,38 @@
-import { useState, useEffect } from "react";
-import ScrollToBottom from "react-scroll-to-bottom";
+import { useState, useEffect } from 'react'
+import ScrollToBottom from 'react-scroll-to-bottom'
 
 export default function Chat({ socket, username, room }) {
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState('')
+  const [messageList, setMessageList] = useState([])
 
   const sendMessage = async () => {
-    if (currentMessage !== "") {
+    if (currentMessage !== '') {
       const messageData = {
         room: room,
         author: username,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
-          ":" +
+          ':' +
           new Date(Date.now()).getMinutes(),
-      };
+      }
 
-      await socket.emit("send_message", messageData);
-      setMessageList((list) => [...list, messageData]);
-      setCurrentMessage("");
+      await socket.emit('send_message', messageData)
+      setMessageList((list) => [...list, messageData])
+      setCurrentMessage('')
     }
-  };
+  }
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data]);
-    });
-  }, [socket]);
+    socket.on('receive_message', (data) => {
+      setMessageList((list) => [...list, data])
+    })
+  }, [socket])
   return (
     <>
       <div className="chat-window">
         <div className="chat-header">
-          <p style={{ textAlign: "center" }}>Live Chat</p>
+          <p style={{ textAlign: 'center' }}>Live Chat</p>
         </div>
         <div className="chat-body">
           <ScrollToBottom className="message-container">
@@ -40,7 +40,7 @@ export default function Chat({ socket, username, room }) {
               return (
                 <div
                   className="message"
-                  id={username !== item.author ? "you" : "other"}
+                  id={username !== item.author ? 'you' : 'other'}
                 >
                   <div>
                     <div className="message-content">
@@ -52,7 +52,7 @@ export default function Chat({ socket, username, room }) {
                     </div>
                   </div>
                 </div>
-              );
+              )
             })}
           </ScrollToBottom>
         </div>
@@ -63,8 +63,8 @@ export default function Chat({ socket, username, room }) {
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
             onKeyPress={(event) => {
-              if (event.key === "Enter") {
-                sendMessage();
+              if (event.key === 'Enter') {
+                sendMessage()
               }
             }}
           />
@@ -72,5 +72,5 @@ export default function Chat({ socket, username, room }) {
         </div>
       </div>
     </>
-  );
+  )
 }
